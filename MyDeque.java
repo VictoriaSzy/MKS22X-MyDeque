@@ -8,6 +8,8 @@ public class MyDeque<E> {
 
   public static void main(String[] args) {
     System.out.println() ;
+    MyDeque a = new MyDeque() ;
+    System.out.println(a.toString()) ;
   }
   public MyDeque() {
     data = (E[])new Object[10] ;
