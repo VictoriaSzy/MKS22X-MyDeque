@@ -34,10 +34,16 @@ public class MyDeque<E> {
     return res + "}" ;
   }
   public void addFirst(E element) {
+    if (element == null) {
+      throw new NullPointerException("You can't add null to the beginning!") ;
+    }
     start = start - 1 ;
   }
   @SuppressWarnings("unchecked")
   public void addLast(E element) {
+    if (element == null) {
+      throw new NullPointerException("You can't add null to the end!") ;
+    }
     if (end == data.length - 1) {
       // we have our end at the end of data --> we have to make a new data
       E[] d = (E[])new Object[size() * 2] ;
