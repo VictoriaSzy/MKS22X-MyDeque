@@ -22,16 +22,15 @@ public class MyDeque<E> {
   }
   public int size() {
     // returning capacity
-    return size ;
+    return end - start + 1 ;
   }
   /* {a b c d }  / {}  /   {VALUE_VALUE2_VALUE3_}  (space after each value)
   */
   public String toString() {
     String res = "{ " ;
     for (int i = 0 ; i < end + 1 ; i++) {
-
+      res += data[i] + " " ;
     }
-
     return res + "}" ;
   }
   public void addFirst(E element) {
@@ -41,12 +40,13 @@ public class MyDeque<E> {
   public void addLast(E element) {
     if (end == data.length - 1) {
       // we have our end at the end of data --> we have to make a new data
-      E[] d = (E[])new Object[data.length * 2] ;
-      for (int i = 0 ; i < data.length ; i++) {
-        if (data[i] != null) {
-          d[i] = data[i] ;
-        }
+      E[] d = (E[])new Object[size() * 2] ;
+      for (int i = 0 ; start < end + 1 && i < data.length ; i++) {
+        d[i] = data[start] ;
+        start++ ;
       }
+      data = d ;
+      start = 0 ;
     }
     else {
       end++ ;
