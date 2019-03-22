@@ -1,3 +1,7 @@
+import java.util.* ;
+import java.io.* ;
+
+@SuppressWarnings("unchecked")
 public class MyDeque<E> {
   private E[] data ;
   private int size, start, end ;
@@ -5,15 +9,12 @@ public class MyDeque<E> {
   public static void main(String[] args) {
     System.out.println() ;
   }
-
-  @SuppressWarnings("unchecked")
   public MyDeque() {
     data = (E[])new Object[10] ;
     size = 10 ;
     start = 0 ;
     end = 9 ;
   }
-  @SuppressWarnings("unchecked")
   public MyDeque(int initialCapacity) {
     size = initialCapacity ;
     data = (E[])new Object[size] ;
