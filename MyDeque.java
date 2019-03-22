@@ -54,18 +54,30 @@ public class MyDeque<E> {
     }
   }
   public E removeFirst() {
+    if (data.length == 0 || size() == 0) {
+      throw new NoSuchElementException("You cannot remove the first element if there aren't any elements!") ;
+    }
     start++ ;
-    return data[start + 1] ;
+    return data[start - 1] ;
   }
   public E removeLast() {
+    if (data.length == 0 || size() == 0) {
+      throw new NoSuchElementException("You cannot remove the last element if there aren't any elements!") ;
+    }
     end-- ;
     return data[end + 1] ;
   }
   // accessor methods
   public E getFirst() {
+    if (data.length == 0 || size() == 0) {
+      throw new NoSuchElementException("You cannot get the first element because it doesn't exist!") ;
+    }
     return data[start] ;
   }
   public E getLast() {
+    if (data.length == 0 || size() == 0) {
+      throw new NoSuchElementException("You cannot get the last element because it doesn't exist!") ;
+    }
     return data[end] ;
   }
 
