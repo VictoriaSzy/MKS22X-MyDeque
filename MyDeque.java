@@ -121,13 +121,36 @@ public class MyDeque<E> {
         index++ ;
       }
       newdata[0] = element ;
+      size = data.length + 1 ;
       data = newdata ;
       start = 0 ;
       end = size - 1 ;
     }
   }
+  @SuppressWarnings("unchecked")
   private void resize() {
-
+    E[] newdata = (E[])new Object[data.length * 2 + 1] ;
+    if (start <= end) {
+      // this is much more straightforward
+      for (int i = 0 ; i < data.length ; i++) {
+        // bring previous elements to new data
+        newdata[i] = data[i] ;
+      }
+      data = newdata ;
+    }
+    else {
+      int index = start ;
+      for (int i = 0 ; index < data.length ; i++) {
+        newdata[i] = data[index] ;
+        index++ ;
+      }
+      index = 0 ;
+      for (int i = data.length - start ; index <= end ; i++) {
+        newdata[i] = data[index] ;
+        index++ ;
+      }
+      data = newdata ;
+    }
   }
 
   @SuppressWarnings("unchecked")
