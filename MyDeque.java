@@ -130,42 +130,32 @@ public class MyDeque<E> {
   @SuppressWarnings("unchecked")
   private void resize() {
     E[] newdata = (E[])new Object[data.length * 2 + 1] ;
-    if (start <= end) {
-      // this is much more straightforward
-      for (int i = 0 ; i < data.length ; i++) {
-        // bring previous elements to new data
-        newdata[i] = data[i] ;
-      }
-      data = newdata ;
-    }
-    else {
-      int index = start ;
-      for (int i = 0 ; index < data.length ; i++) {
-        newdata[i] = data[index] ;
-        index++ ;
+    int index = start ;
+    if (start != 0 && end < start) {
+      //if start is not the zero index and end is less than start...
+      for (int i = 0 ; index < data.length ; i++){
+        if (data[i] != null) {
+          newdata[i] = data[index] ;
+          index++ ;
+        }
       }
       index = 0 ;
       for (int i = data.length - start ; index <= end ; i++) {
         newdata[i] = data[index] ;
         index++ ;
       }
-      data = newdata ;
     }
-  }
-
-  @SuppressWarnings("unchecked")
-  public void addLast(E element) {
-    if (element == null) {
-      throw new NullPointerException("You can't add null to the end!") ;
+    else if (end >= start) {
+      // more straightforward
+      for (int i = 0 ; index <= end ; i++) {
+        newdata[i] = data[index] ;
+        index++ ;
+      }
     }
-    if (end == data.length - 1) {
-      // we have our end at the end of data --> we have to make a new data
-      resize() ;
-    }
-    else {
-      end++ ;
-      data[end] = element ;
-    }
+    // final steps
+    data = newdata ;
+    start = 0 ;
+    end = this.size() - 1 ;
   }
   public E removeFirst() {
     if (data.length == 0 || size() == 0) {
