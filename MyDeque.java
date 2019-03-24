@@ -16,6 +16,7 @@ public class MyDeque<E> {
     System.out.println("Start (should be 0): " + a.getStartIndex()) ;
     System.out.println("End (should be 0): " + a.getEndIndex()) ;
   }
+  //// constructors
   @SuppressWarnings("unchecked")
   public MyDeque() {
     data = (E[])new Object[10] ;
@@ -36,6 +37,7 @@ public class MyDeque<E> {
     // otherwise we can find the difference
     return end - start + 1 ;
   }
+  /// to String methods
   /* {a b c d }  / {}  /   {VALUE_VALUE2_VALUE3_}  (space after each value)
   */
   public String toString() {
@@ -64,7 +66,7 @@ public class MyDeque<E> {
     }
     return res + " }" ;
   }
-
+  // add methods
   public void addFirst(E element) {
     if (element == null) {
       throw new NullPointerException("You can't add null to the beginning!") ;
@@ -161,8 +163,19 @@ public class MyDeque<E> {
     if (data.length == 0 || size() == 0) {
       throw new NoSuchElementException("You cannot remove the first element if there aren't any elements!") ;
     }
-    start++ ;
-    return data[start - 1] ;
+    E val = data[start] ;
+    data[start] = null ;
+    size-- ;
+    int dif = Math.abs(end - start) ;
+    if (((data.length - size + dif) != start) && start != size && start != (dif + end)) {
+      // start isn't the last val
+      start++ ; 
+    }
+    else {
+      //start is the last
+      start = 0 ;
+    }
+    return val ;
   }
   public E removeLast() {
     if (data.length == 0 || size() == 0) {
