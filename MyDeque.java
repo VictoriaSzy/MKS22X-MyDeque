@@ -1,7 +1,6 @@
 import java.util.* ;
 import java.io.* ;
 
-
 public class MyDeque<E> {
   private E[] data ;
   private int size, start, end ;
@@ -15,6 +14,14 @@ public class MyDeque<E> {
     System.out.println("The size of a should be 0: " + a.size()) ;
     System.out.println("Start (should be 0): " + a.getStartIndex()) ;
     System.out.println("End (should be 0): " + a.getEndIndex()) ;
+    a.addFirst(5) ;
+    System.out.println("Adding 5 to the beginning: \n" + a.toString()) ;
+    a.addLast(1) ;
+    System.out.println("Adding 1 to the end: \n" + a.toString()) ;
+    a.removeFirst() ;
+    System.out.println("We removed the first element: \n" + a.toString()) ;
+    a.removeLast() ;
+    System.out.println("We removed the last element: \n" + a.toString()) ;
   }
   //// constructors
   @SuppressWarnings("unchecked")
@@ -95,7 +102,40 @@ public class MyDeque<E> {
       resizeAddFirst(element) ;
     }
   }
-
+  public void addLast(E element) {
+    if (element == null) {
+      throw new NullPointerException("You cannot add null, especially to the end!") ;
+    }
+    int l = data.length ;
+    if (size == 0) {
+      // first element
+      data[0] = element ;
+      start = 0 ;
+      end = 0 ;
+    }
+    else if (size != l && start <= end && end < l - 1) {
+      data[end + 1] = element ;
+      end++ ;
+    }
+    else if (size != l && end == (l - 1) ) {
+      // end is at the end of the array but there's still some space available in the front
+      data[0] = element ;
+      end = 0 ;
+    }
+    else if (size != l && end < start && (end != start - 1) ) {
+      // there is space before the start and end is before start already
+      data[end + 1] = element ;
+      end++ ;
+    }
+    else if (size == l || end == (start - 1)) {
+      // no more space means resize!
+      resize() ;
+      data[end + 1] = element ;
+      end++ ;
+    }
+    // final step
+    size++ ;
+  }
   @SuppressWarnings("unchecked")
   private void resizeAddFirst(E element) {
     E[] newdata = (E[])new Object[data.length * 2 + 1] ;
