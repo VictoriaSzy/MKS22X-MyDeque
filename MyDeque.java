@@ -12,7 +12,7 @@ public class MyDeque<E> {
     System.out.println("Here is the toString method run on the new MyDeque a: ") ;
     System.out.println(a.toString()) ; // expecting only one null to be printed since it's from start to end
     System.out.println("Here is the entire array (including before/after start and end):\n" + a.toStringFull()) ;
-    System.out.println("The size of a should be 1: " + a.size()) ;
+    System.out.println("The size of a should be 0: " + a.size()) ;
     System.out.println("Start (should be 0): " + a.getStartIndex()) ;
     System.out.println("End (should be 0): " + a.getEndIndex()) ;
   }
@@ -64,6 +64,7 @@ public class MyDeque<E> {
     }
     return res + " }" ;
   }
+
   public void addFirst(E element) {
     if (element == null) {
       throw new NullPointerException("You can't add null to the beginning!") ;
@@ -72,11 +73,55 @@ public class MyDeque<E> {
       // data does not have any elements so that's good!
       data[0] = element ;
       size++ ;
-      end++ ;
-
+      start = 0 ;
+      end = 0 ;
     }
-    start = start - 1 ;
+    else if (size < data.length && start == 0) {
+      // we are adding to data which has space but already has an element at the start (0)
+      size++ ;
+      data[end + 1] = element ; // wrap the data around
+      start = end + 1 ;
+    }
+    else if (size < data.length && start > 0 && end != start - 1) {
+      // the data starts at the middle of the array but we can still add before the first element
+      size++ ;
+      start = start - 1 ;
+      data[start] = element ;
+    }
+    else if (start != 0 && end == start - 1 || size == data.length) {
+      // we have reached the capacity of data so we need to resize
+      resizeAddFirst(element) ;
+    }
   }
+
+  @SuppressWarnings("unchecked")
+  private void resizeAddFirst(E element) {
+    E[] newdata = (E[])new Object[data.length * 2 + 1] ;
+    if (start <= end) {
+      // this is much more straightforward
+      for (int i = 1 ; i < data.length ; i++) {
+        // bring previous elements to new data
+        newdata[i] = data[i - 1] ;
+      }
+      newdata[0] = element ;
+      data = newdata ;
+    }
+    else {
+      int index = start ;
+      for (int i = 1 ; index < data.length ; i++) {
+        newdata[i] = data[index] ;
+        index++ ;
+      }
+      for (int i = data.length - start ; index <= end ; i++) {
+        newdata[i] = data[index] ;
+      }
+      newdata[0] = element ;
+    }
+  }
+  private void resize() {
+
+  }
+
   @SuppressWarnings("unchecked")
   public void addLast(E element) {
     if (element == null) {
@@ -84,13 +129,7 @@ public class MyDeque<E> {
     }
     if (end == data.length - 1) {
       // we have our end at the end of data --> we have to make a new data
-      E[] d = (E[])new Object[size() * 2] ;
-      for (int i = 0 ; start < end + 1 && i < data.length ; i++) {
-        d[i] = data[start] ;
-        start++ ;
-      }
-      data = d ;
-      start = 0 ;
+      resize() ;
     }
     else {
       end++ ;
