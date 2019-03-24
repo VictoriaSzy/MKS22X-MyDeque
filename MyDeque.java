@@ -104,7 +104,10 @@ public class MyDeque<E> {
         newdata[i] = data[i - 1] ;
       }
       newdata[0] = element ;
+      size = data.length + 1 ;
       data = newdata ;
+      start = 0 ;
+      end = size - 1 ;
     }
     else {
       int index = start ;
@@ -112,10 +115,15 @@ public class MyDeque<E> {
         newdata[i] = data[index] ;
         index++ ;
       }
+      index = 0 ;
       for (int i = data.length - start ; index <= end ; i++) {
         newdata[i] = data[index] ;
+        index++ ;
       }
       newdata[0] = element ;
+      data = newdata ;
+      start = 0 ;
+      end = size - 1 ;
     }
   }
   private void resize() {
