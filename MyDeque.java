@@ -169,10 +169,10 @@ public class MyDeque<E> {
     int dif = Math.abs(end - start) ;
     if (((data.length - size + dif) != start) && start != size && start != (dif + end)) {
       // start isn't the last val
-      start++ ; 
+      start++ ;
     }
     else {
-      //start is the last
+      // start is the last
       start = 0 ;
     }
     return val ;
@@ -181,8 +181,17 @@ public class MyDeque<E> {
     if (data.length == 0 || size() == 0) {
       throw new NoSuchElementException("You cannot remove the last element if there aren't any elements!") ;
     }
-    end-- ;
-    return data[end + 1] ;
+    E val = data[end] ;
+    data[end] = null ;
+    size-- ;
+    if (end != 0) {
+      // simpler case
+      end-- ;
+    }
+    else {
+      end = (start + size) - 1 ;
+    }
+    return val ;
   }
   // accessor methods
   public E getFirst() {
