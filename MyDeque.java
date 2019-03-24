@@ -1,14 +1,14 @@
 import java.util.* ;
 import java.io.* ;
 
-@SuppressWarnings("unchecked")
+
 public class MyDeque<E> {
   private E[] data ;
   private int size, start, end ;
 
   public static void main(String[] args) {
     System.out.println("************************************************************************************") ;
-    MyDeque a = new MyDeque() ;
+    MyDeque<Integer> a = new MyDeque<Integer>() ;
     System.out.println("Here is the toString method run on the new MyDeque a: ") ;
     System.out.println(a.toString()) ; // expecting only one null to be printed since it's from start to end
     System.out.println("Here is the entire array (including before/after start and end):\n" + a.toStringFull()) ;
@@ -16,14 +16,17 @@ public class MyDeque<E> {
     System.out.println("Start (should be 0): " + a.getStartIndex()) ;
     System.out.println("End (should be 0): " + a.getEndIndex()) ;
   }
+  @SuppressWarnings("unchecked")
   public MyDeque() {
     data = (E[])new Object[10] ;
     size = 0 ;
     start = 0 ;
     end = 0 ;
   }
+  @SuppressWarnings("unchecked")
   public MyDeque(int initialCapacity) {
     data = (E[])new Object[initialCapacity] ;
+    size = 0 ;
     start = 0 ;
     end = 0 ;
   }
@@ -31,14 +34,25 @@ public class MyDeque<E> {
     // returning capacity
     if (size == 0) return 0 ;
     // otherwise we can find the difference
-    return end - start ;
+    return end - start + 1 ;
   }
   /* {a b c d }  / {}  /   {VALUE_VALUE2_VALUE3_}  (space after each value)
   */
   public String toString() {
+    if (size == 0) return "{}" ;
     String res = "{ " ;
-    for (int i = 0 ; i < end + 1 ; i++) {
-      res += data[i] + " " ;
+    if (start <= end) {
+      for (int i = start ; i <= end ; i++) {
+        res += data[i] + " " ;
+      }
+    }
+    else {
+      for (int i = start ; i < data.length ; i++) {
+        res += data[i] + " " ;
+      }
+      for (int i = 0 ; i <= end ; i++) {
+        res += data[i] + " " ;
+      }
     }
     return res + "}" ;
   }
