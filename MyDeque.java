@@ -16,6 +16,8 @@ public class MyDeque<E> {
     System.out.println("End (should be 0): " + a.getEndIndex()) ;
     a.addFirst(5) ;
     System.out.println("Adding 5 to the beginning: \n" + a.toString()) ;
+    a.addFirst(3) ;
+    System.out.println("Adding 3 to the beginning: \n" + a.toString()) ;
     a.addLast(1) ;
     System.out.println("Adding 1 to the end: \n" + a.toString()) ;
     a.removeFirst() ;
@@ -88,8 +90,8 @@ public class MyDeque<E> {
     else if (size < data.length && start == 0) {
       // we are adding to data which has space but already has an element at the start (0)
       size++ ;
-      data[end + 1] = element ; // wrap the data around
-      start = end + 1 ;
+      data[data.length - 1] = element ; // wrap the data around
+      start = data.length - 1 ;
     }
     else if (size < data.length && start > 0 && end != start - 1) {
       // the data starts at the middle of the array but we can still add before the first element
