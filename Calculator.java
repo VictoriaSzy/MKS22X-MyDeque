@@ -20,7 +20,6 @@ public class Calculator {
     } catch (Exception e) {
       System.out.println("There is an exception being thrown but it is not a usual error!") ;
     }
-    System.out.println("In conclusion, there shouldn't be any errors.") ;
   }
     /*Evaluate a postfix expression stored in s.
      *Assume valid postfix notation, separated by spaces.
@@ -29,28 +28,27 @@ public class Calculator {
       Double ans = 0.0 ;
       MyDeque<Double> a = new MyDeque<Double>() ;
       String[] list = s.split(" ") ;
-      String[] ops = new String[list.length - ((list.length / 2) + 1) + 1] ;
+      //String[] ops = new String[list.length - ((list.length / 2) + 1) + 1] ;
       //Double[] vals = new Double[list.length - (list.length / 2)] ;
       int i = 0 ;
       String operations = "+-/*" ;
-      int numOfValues = 0 ;
       while (i < list.length && !operations.contains(list[i])) {
         // we are finding the values
         int val = Integer.parseInt(list[i]) ;
         //vals[i] = 1.0 * val ;
-        System.out.println("The value being added is: " + val) ;
+        //System.out.println("The value being added is: " + val) ;
         a.addLast(1.0 * val) ;
-        numOfValues++ ;
         i++ ;
       }
       while (i < list.length && operations.contains(list[i])) {
         // we are finding all of the operations
-        Double b = a.getLast() ;
-        Double aa = a.getLast() ;
-        ans += operate(aa,b,list[i]) ;
+        Double b = a.removeLast() ;
+        Double aa = a.removeLast() ;
+        Double output = operate(aa,b,list[i]) ;
+        a.addLast(output) ;
         i++ ;
       }
-      return ans ;
+      return a.getFirst() ; // there should really only be one element left
     }
     public static Double operate(Double a, Double b, String op) {
       // a is really the first value that we get when we read the given from left to right
