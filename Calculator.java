@@ -23,6 +23,7 @@ public class Calculator {
      *Assume valid postfix notation, separated by spaces.
      */
     public static double eval(String s) {
+      Double ans = 0.0 ;
       MyDeque<Double> a = new MyDeque<Double>() ;
       String[] list = s.split(" ") ;
       String[] ops = new String[list.length - ((list.length / 2) + 1) + 1] ;
@@ -39,18 +40,17 @@ public class Calculator {
         numOfValues++ ;
         i++ ;
       }
-      int x = 0 ;
       while (i < list.length && operations.contains(list[i])) {
         // we are finding all of the operations
-        ops[x] = list[i] ;
+        int b = a.getLast() ;
+        int aa = a.getLast() ;
+        ans = operate(aa,b,list[i]) ;
         i++ ;
       }
-      for (String op : ops) {
-
-      }
-      return 0.0 ;
+      return ans ;
     }
     public static Double operate(Double a, Double b, String op) {
+      // a is really the first value that we get when we read the given from left to right
       if (op.equals("+")) return a + b ;
       if (op.equals("-")) return a - b ;
       if (op.equals("*")) return a * b ;
