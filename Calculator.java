@@ -42,9 +42,9 @@ public class Calculator {
       }
       while (i < list.length && operations.contains(list[i])) {
         // we are finding all of the operations
-        int b = a.getLast() ;
-        int aa = a.getLast() ;
-        ans = operate(aa,b,list[i]) ;
+        Double b = a.getLast() ;
+        Double aa = a.getLast() ;
+        ans += operate(aa,b,list[i]) ;
         i++ ;
       }
       return ans ;
