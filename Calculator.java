@@ -9,7 +9,14 @@ public class Calculator {
       String operations = "+-/*" ;
       while (i < list.length && !operations.contains(list[i])) {
         int val = Integer.parseInt(list[i]) ;
+        System.out.println("The value being added is: " + val) ;
         a.addFirst(1.0 * val) ;
       }
+    }
+    public static Double operate(Double a, Double b, String op) {
+      if (op.equals("+")) return a + b ;
+      if (op.equals("-")) return a - b ;
+      if (op.equals("*")) return a * b ;
+      if (op.equals("/")) return a / b ;
     }
 }
