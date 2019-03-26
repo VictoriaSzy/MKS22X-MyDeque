@@ -13,6 +13,9 @@ public class Calculator {
       String b = "1 1 -" ; // hopefully we can subtract --> 0
       System.out.println("Given: " + b) ;
       System.out.println("Output: " + eval(b)) ;
+      String c = "1 6 *" ; // hopefully we can multiply a number by 1 --> 6
+      System.out.println("Given: " + c) ;
+      System.out.println("Output: " + eval(c)) ;
     } catch (NumberFormatException e) {
       System.out.println("The given String does not provide the appropriate info!") ;
     } catch (IndexOutOfBoundsException e) {
@@ -31,7 +34,7 @@ public class Calculator {
       //String[] ops = new String[list.length - ((list.length / 2) + 1) + 1] ;
       //Double[] vals = new Double[list.length - (list.length / 2)] ;
       int i = 0 ;
-      String operations = "+-/*" ;
+      String operations = "+-/*%" ;
       while (i < list.length && !operations.contains(list[i])) {
         // we are finding the values
         int val = Integer.parseInt(list[i]) ;
@@ -56,7 +59,9 @@ public class Calculator {
       if (op.equals("-")) return a - b ;
       if (op.equals("*")) return a * b ;
       if (op.equals("/")) return a / b ;
+      if (op.equals("%")) return a % b ;
       return 0.0 ;
+      //throw IllegalArgumentException("An IllegalArgumentException was thrown - this should not have happened!") ;
       // might consider throwing an exception but not sure what kind yet
     }
 }
