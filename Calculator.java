@@ -10,6 +10,9 @@ public class Calculator {
       String a = "1 1 +" ; // hopefully we can add so we should get 2
       System.out.println("Given: " + a) ;
       System.out.println("Output: " + eval(a)) ;
+      String b = "1 1 -" ; // hopefully we can subtract --> 0
+      System.out.println("Given: " + b) ;
+      System.out.println("Output: " + eval(b)) ;
     } catch (NumberFormatException e) {
       System.out.println("The given String does not provide the appropriate info!") ;
     } catch (IndexOutOfBoundsException e) {
