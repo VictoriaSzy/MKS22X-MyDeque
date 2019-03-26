@@ -257,8 +257,6 @@ public class Driver {
 				break;
 			}
 		}
-
-		/*
 		// adding forward to meet at middle
 
 		for (int i = 0; i < 1000; i++) {
@@ -382,7 +380,6 @@ public class Driver {
 				break;
 			}
 		}
-*/
 		// summary
 System.out.println("Here is a \"summary\" of your results: ") ;
 		if (out.size() == 0) {
