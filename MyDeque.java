@@ -42,13 +42,13 @@ public class MyDeque<E> {
   }
   public int size() {
     // returning capacity
-    if (size == 0) return 0 ;
+    //if (size == 0) return 0 ;
     // otherwise we can find the difference
-    return end - start + 1 ;
+    //return end - start + 1 ;
+    return size ;
   }
   /// to String methods
-  /* {a b c d }  / {}  /   {VALUE_VALUE2_VALUE3_}  (space after each value)
-  */
+  // {a b c d }  / {}  /   {VALUE_VALUE2_VALUE3_}  (space after each value)
   public String toString() {
     if (size == 0) return "{}" ;
     String res = "{ " ;
@@ -80,65 +80,33 @@ public class MyDeque<E> {
     if (element == null) {
       throw new NullPointerException("You can't add null to the beginning!") ;
     }
-    if (size() == 0) {
-      // data does not have any elements so that's good!
-      data[0] = element ;
-      size++ ;
-      start = 0 ;
-      end = 0 ;
-    }
-    else if (size < data.length && start == 0) {
-      // we are adding to data which has space but already has an element at the start (0)
-      size++ ;
-      data[data.length - 1] = element ; // wrap the data around
-      start = data.length - 1 ;
-    }
-    else if (size < data.length && start > 0 && end != start - 1) {
-      // the data starts at the middle of the array but we can still add before the first element
-      size++ ;
-      start = start - 1 ;
+    if (size == data.length) resize() ;
+    if (size == 0) {
       data[start] = element ;
+      end = start ;
+      size++ ;
+      return ;
     }
-    else if (start != 0 && end == start - 1 || size == data.length) {
-      // we have reached the capacity of data so we need to resize
-      resizeAddFirst(element) ;
-    }
+    start = (start - 1 + data.length) % data.length ;
+    data[start] = element ;
+    size++ ;
   }
   public void addLast(E element) {
     if (element == null) {
       throw new NullPointerException("You cannot add null, especially to the end!") ;
     }
-    int l = data.length ;
+    if (size == data.length) resize() ;
     if (size == 0) {
-      // first element
-      data[0] = element ;
-      start = 0 ;
-      end = 0 ;
+      data[start] = element ;
+      end = start ;
+      size++ ;
+      return ;
     }
-    else if (size != l && start <= end && end < l - 1) {
-      data[end + 1] = element ;
-      end++ ;
-    }
-    else if (size != l && end == (l - 1) ) {
-      // end is at the end of the array but there's still some space available in the front
-      data[0] = element ;
-      end = 0 ;
-    }
-    else if (size != l && end < start && (end != start - 1) ) {
-      // there is space before the start and end is before start already
-      data[end + 1] = element ;
-      end++ ;
-    }
-    else if (size == l || end == (start - 1)) {
-      // no more space means resize!
-      resize() ;
-      data[end + 1] = element ;
-      end++ ;
-    }
-    // final step
+    end = (end + 1) % data.length ;
+    data[end] = element ;
     size++ ;
   }
-  @SuppressWarnings("unchecked")
+  /*@SuppressWarnings("unchecked")
   private void resizeAddFirst(E element) {
     E[] newdata = (E[])new Object[data.length * 2 + 1] ;
     if (start <= end) {
@@ -170,69 +138,52 @@ public class MyDeque<E> {
       start = 0 ;
       end = size - 1 ;
     }
-  }
+  }*/
   @SuppressWarnings("unchecked")
   private void resize() {
     E[] newdata = (E[])new Object[data.length * 2 + 1] ;
-    int index = start ;
-    if (start != 0 && end < start) {
-      //if start is not the zero index and end is less than start...
-      for (int i = 0 ; index < data.length ; i++){
-        if (data[i] != null) {
-          newdata[i] = data[index] ;
-          index++ ;
-        }
-      }
-      index = 0 ;
-      for (int i = data.length - start ; index <= end ; i++) {
-        newdata[i] = data[index] ;
-        index++ ;
-      }
+    for (int i = start ; i < start + size ; i++) {
+      newdata[i - start] = data[i % data.length] ;
     }
-    else if (end >= start) {
-      // more straightforward
-      for (int i = 0 ; index <= end ; i++) {
-        newdata[i] = data[index] ;
-        index++ ;
-      }
+    end = size - 1 ;
+    start = 0 ;
+    /*int index = start ;
+    for (int i = 0 ; index < data.length; i++) {
+      newdata[i] = data[index] ;
+      index++ ;
     }
+    index = 0 ;
+    int e = 0 ;
+    for (int i = data.length - start ; index <= end ; i++) {
+      newdata[i] = data[index] ;
+      index++ ;
+      e = i ;
+    }*/
     // final steps
     data = newdata ;
-    start = 0 ;
-    end = this.size() - 1 ;
+    //start = 0 ;
+    //end = e ;
   }
   public E removeFirst() {
     if (data.length == 0 || size() == 0) {
       throw new NoSuchElementException("You cannot remove the first element if there aren't any elements!") ;
     }
-    E val = data[start] ;
+    E val = data[start] ; // original value that we will return
     data[start] = null ;
+    int dif = start + 1 ;
+    start = dif % data.length ;
     size-- ;
-    int dif = Math.abs(end - start) ;
-    if (((data.length - size + dif) != start) && start != size && start != (dif + end)) {
-      // start isn't the last val
-      start++ ;
-    }
-    else {
-      // start is the last
-      start = 0 ;
-    }
     return val ;
   }
   public E removeLast() {
     if (data.length == 0 || size() == 0) {
       throw new NoSuchElementException("You cannot remove the last element if there aren't any elements!") ;
     }
-    E val = data[end] ;
+    E val = data[end] ; // original value to be returned
     data[end] = null ;
+    int dif = end - 1 + data.length ;
+    end = dif % data.length ;
     size-- ;
-    if (end != 0) {
-      // simpler case
-      end-- ;
-    }
-    else {
-      end = (start + size) - 1 ;
-    }
     return val ;
   }
   // accessor methods
@@ -255,5 +206,11 @@ public class MyDeque<E> {
   public int getEndIndex() {
     return end ;
   }
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
