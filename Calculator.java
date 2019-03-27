@@ -5,6 +5,14 @@ public class Calculator {
 
   public static void main(String[] args) {
     try {
+      String t1 = "10 2.0 +" ;
+      String t2 = "11 3 - 4 + 2.5 *" ;
+      String t3 = "8 2 + 99 9 - * 2 + 9 -" ;
+      String t4 = "1 2 3 4 5 + * - -" ;
+      System.out.println(eval(t1)) ;
+      System.out.println(eval(t2)) ;
+      System.out.println(eval(t3)) ;
+      System.out.println(eval(t4)) ;
       System.out.println("Welcome to calculator!") ;
       System.out.println("Here is the first String we are going to run:") ;
       String a = "1 1 +" ; // hopefully we can add so we should get 2
