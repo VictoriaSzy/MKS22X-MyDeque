@@ -24,10 +24,6 @@ public class Calculator {
       String c = "1 6 *" ; // hopefully we can multiply a number by 1 --> 6
       System.out.println("Given: " + c) ;
       System.out.println("Output: " + eval(c)) ;
-    } catch (NumberFormatException e) {
-      System.out.println("The given String does not provide the appropriate info!") ;
-    } catch (IndexOutOfBoundsException e) {
-      System.out.println("One or more of the arrays somehow got an index out of bounds!") ;
     } catch (Exception e) {
       System.out.println("There is an exception being thrown but it is not a usual error!") ;
     }
@@ -39,16 +35,22 @@ public class Calculator {
       Double ans = 0.0 ;
       MyDeque<Double> a = new MyDeque<Double>() ;
       String[] list = s.split(" ") ;
-      String operations = "+-/*" ;
+      String operations = "+-/*%" ;
       for (int i = 0 ; i < list.length ; i++) {
         if (operations.contains(list[i])) {
-          double aa = a.removeLast() ;
-          double bb = a.removeLast() ;
-          a.addLast(operate(bb, aa, list[i])) ;
+          double aa = 1.0 * a.removeLast() ;
+          double bb = 1.0 * a.removeLast() ;
+          double val = 0.0 ;
+          if (list[i].equals("+")) val = aa + bb ;
+          if (list[i].equals("-")) val = bb - aa ;
+          if (list[i].equals("*")) val = aa * bb ;
+          if (list[i].equals("/")) val = bb / aa ;
+          if (list[i].equals("%")) val = bb % aa ;
+          a.addLast(val) ;
         }
         else {
           int x = Integer.parseInt(list[i]) ;
-          a.addLast((double) x) ;
+          a.addLast(1.0 * x) ;
         }
       }
       return a.getLast() ;
