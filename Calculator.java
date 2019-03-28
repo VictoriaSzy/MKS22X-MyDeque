@@ -9,10 +9,10 @@ public class Calculator {
       String t2 = "11 3 - 4 + 2.5 *" ;
       String t3 = "8 2 + 99 9 - * 2 + 9 -" ;
       String t4 = "1 2 3 4 5 + * - -" ;
-      System.out.println(eval(t1)) ;
-      System.out.println(eval(t2)) ;
-      System.out.println(eval(t3)) ;
-      System.out.println(eval(t4)) ;
+      System.out.println("12.0 ----> " + eval(t1)) ;
+      System.out.println("30.0 ----> " + eval(t2)) ;
+      System.out.println("893.0 ----> " + eval(t3)) ;
+      System.out.println("26.0 ----> " + eval(t4)) ;
       System.out.println("Welcome to calculator!") ;
       System.out.println("Here is the first String we are going to run:") ;
       String a = "1 1 +" ; // hopefully we can add so we should get 2
@@ -39,7 +39,6 @@ public class Calculator {
       Double ans = 0.0 ;
       MyDeque<Double> a = new MyDeque<Double>() ;
       String[] list = s.split(" ") ;
-<<<<<<< HEAD
       String operations = "+-/*" ;
       for (int i = 0 ; i < list.length ; i++) {
         if (operations.contains(list[i])) {
@@ -55,32 +54,6 @@ public class Calculator {
       return a.getLast() ;
     }
     public static double operate(double a, double b, String op) {
-=======
-      //String[] ops = new String[list.length - ((list.length / 2) + 1) + 1] ;
-      //Double[] vals = new Double[list.length - (list.length / 2)] ;
-      int i = 0 ;
-      String operations = "+-/*%" ;
-      while (i < list.length && !operations.contains(list[i])) {
-        // we are finding the values
-        int val = Integer.parseInt(list[i]) ;
-        //vals[i] = 1.0 * val ;
-        //System.out.println("The value being added is: " + val) ;
-        a.addLast(1.0 * val) ;
-        i++ ;
-      }
-      while (i < list.length && operations.contains(list[i])) {
-        // we are finding all of the operations
-        Double b = a.removeLast() ;
-        Double aa = a.removeLast() ;
-        Double output = operate(aa,b,list[i]) ;
-        a.addLast(output) ;
-        i++ ;
-      }
-      return a.getFirst() ; // there should really only be one element left
-    }
-    public static Double operate(Double a, Double b, String op) {
-      // a is really the first value that we get when we read the given from left to right
->>>>>>> c5a4daccec4ab4d28fa773f04e6afbabb8651a41
       if (op.equals("+")) return a + b ;
       if (op.equals("-")) return a - b ;
       if (op.equals("*")) return a * b ;
