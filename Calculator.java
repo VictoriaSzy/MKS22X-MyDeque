@@ -4,7 +4,6 @@ import java.io.* ;
 public class Calculator {
 
   public static void main(String[] args) {
-    try {
       String t1 = "10 2.0 +" ;
       String t2 = "11 3 - 4 + 2.5 *" ;
       String t3 = "8 2 + 99 9 - * 2 + 9 -" ;
@@ -24,37 +23,31 @@ public class Calculator {
       String c = "1 6 *" ; // hopefully we can multiply a number by 1 --> 6
       System.out.println("Given: " + c) ;
       System.out.println("Output: " + eval(c)) ;
-    } catch (Exception e) {
-      System.out.println("There is an exception being thrown but it is not a usual error!") ;
-    }
   }
     /*Evaluate a postfix expression stored in s.
      *Assume valid postfix notation, separated by spaces.
      */
     public static double eval(String s) {
-      Double ans = 0.0 ;
       MyDeque<Double> a = new MyDeque<Double>() ;
       String[] list = s.split(" ") ;
       String operations = "+-/*%" ;
       for (int i = 0 ; i < list.length ; i++) {
-        if (operations.contains(list[i])) {
-          double aa = 1.0 * a.removeLast() ;
-          double bb = 1.0 * a.removeLast() ;
-          double val = 0.0 ;
-          if (list[i].equals("+")) val = aa + bb ;
-          if (list[i].equals("-")) val = bb - aa ;
-          if (list[i].equals("*")) val = aa * bb ;
-          if (list[i].equals("/")) val = bb / aa ;
-          if (list[i].equals("%")) val = bb % aa ;
-          a.addLast(val) ;
-        }
-        else {
-          int x = Integer.parseInt(list[i]) ;
-          a.addLast(1.0 * x) ;
+        try {
+          a.addLast(Double.parseDouble(list[i])) ;
+        } catch (NumberFormatException e) {
+          Double aa = a.removeLast() ;
+          Double bb = a.removeLast() ;
+          char o = list[i].charAt(0) ;
+          if (o == '+') a.addLast(bb + aa) ;
+          else if (o == '-') a.addLast(bb - aa) ;
+          else if (o == '/') a.addLast(bb / aa) ;
+          else if (o == '*') a.addLast(bb * aa) ;
+          else if (o == '%') a.addLast(bb % aa) ;
         }
       }
-      return a.getLast() ;
+      return a.getFirst() ;
     }
+/*
     public static double operate(double a, double b, String op) {
       if (op.equals("+")) return a + b ;
       if (op.equals("-")) return a - b ;
@@ -64,5 +57,5 @@ public class Calculator {
       return 0.0 ;
       //throw IllegalArgumentException("An IllegalArgumentException was thrown - this should not have happened!") ;
       // might consider throwing an exception but not sure what kind yet
-    }
+    }*/
 }
