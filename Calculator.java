@@ -32,9 +32,8 @@ public class Calculator {
       String[] list = s.split(" ") ;
       String operations = "+-/*%" ;
       for (int i = 0 ; i < list.length ; i++) {
-        try {
-          a.addLast(Double.parseDouble(list[i])) ;
-        } catch (NumberFormatException e) {
+        if (!operations.contains(list[i])) a.addLast(Double.parseDouble(list[i])) ;
+        else {
           Double aa = a.removeLast() ;
           Double bb = a.removeLast() ;
           char o = list[i].charAt(0) ;
